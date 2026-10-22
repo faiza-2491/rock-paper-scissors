@@ -1,5 +1,3 @@
-console.log("Hello World");
-
 function getComputerChoice()
 {
     let rand = Math.floor(Math.random() * 3);
@@ -14,86 +12,93 @@ function getComputerChoice()
     return "scissors";
 }
 
-/*
-function getHumanChoice()
-{
-    let choice = prompt("Enter rock, paper, or scissors: ");
-    return choice;
-}
-*/
-
 let computerScore = 0;
 let humanScore = 0;
 
 
-function playRound(event, humanChoice)
+function playRound(humanChoice)
 {
-    event.preventDefault();
 
+    let results = document.querySelector(".results");
+    let currentRound = document.createElement("p");
+    let compScoreDisplay = document.querySelector(".comp-score");
+    let userScoreDisplay = document.querySelector(".user-score");
     let computerChoice = getComputerChoice();
 
+    // checks the winner of current round, updates and displays winner and score
     if (humanChoice.textContent === "paper" && computerChoice === "scissors")
     {
-        console.log("You lose! Scissors beats paper");
+        currentRound.textContent = "You lose! Scissors beats paper";
         computerScore += 1;
+        compScoreDisplay.textContent = "Computer Score: " + computerScore;
     }
     else if (humanChoice.textContent === "rock" && computerChoice === "paper")
     {
-        console.log("You lose! paper beats rock");
+        currentRound.textContent =  "You lose! paper beats rock";
         computerScore += 1;
+        compScoreDisplay.textContent = "Computer Score: " + computerScore;
     }
     else if (humanChoice.textContent === "scissors" && computerChoice === "rock")
     {
-        console.log("You lose! rock beats scissors");
+        currentRound.textContent =  "You lose! rock beats scissors";
         computerScore += 1;
+        compScoreDisplay.textContent = "Computer Score: " + computerScore;
     }
     else if (humanChoice.textContent === "scissors" && computerChoice === "paper")
     {
-        console.log("You Win! Scissors beats paper");
+        currentRound.textContent =  "You Win! Scissors beats paper";
         humanScore += 1;
+        userScoreDisplay.textContent = "Your Score: " + humanScore;
     }
     else if (humanChoice.textContent === "paper" && computerChoice === "rock")
     {
-        console.log("You Win! paper beats rock");
+        currentRound.textContent =  "You Win! paper beats rock";
         humanScore += 1;
+        userScoreDisplay.textContent = "Your Score: " + humanScore;
     }
     else if (humanChoice.textContent === "rock" && computerChoice === "scissors")
     {
-        console.log("You Win! rock beats scissors");
+        currentRound.textContent =  "You Win! rock beats scissors";
         humanScore += 1;
+        userScoreDisplay.textContent = "Your Score: " + humanScore;
     }
     else if (humanChoice.textContent === computerChoice)
     {
-        console.log("Tie!");
+        currentRound.textContent =  "Tie!";
     }
+    
+    
+    results.appendChild(currentRound);
 
-    console.log("Computer Score: " + computerScore)
-    console.log("Human Score: " + humanScore)
-}
-
-/*
-function playGame()
-{
-    for (let i = 0; i < 5; i += 1)
+    // checks if somebody has reached 5 points and displays winner
+    let score = document.createElement("p");
+    if (humanScore === 5 && computerScore === 5)
     {
-        let humanSelection = getHumanChoice();
-        let computerSelection = getComputerChoice();
-        playRound(humanSelection, computerSelection);
+        score.textContent = "final ranking: Tie!";
+        results.appendChild(score);
     }
-
-    console.log("Computer Score: " + computerScore)
-    console.log("Human Score: " + humanScore)
+    else if (humanScore === 5)
+    {
+        score.textContent = "You win the game!";
+        results.appendChild(score);
+    }
+    else if (computerScore === 5)
+    {
+        score.textContent = "Computer wins the game!";
+        results.appendChild(score);
+    }
 }
-*/
 
 let choice;
 const rock = document.getElementById("rock");
 const paper = document.getElementById("paper");
 const scissors = document.getElementById("scissors");
 
-rock.addEventListener("click", playRound(e, rock));
+// adding () => before calling playRound allows the function to be called not immediately when the bpage is reloaded and only when
+// the button is clicked
+rock.addEventListener("click", () => playRound(rock));
 
-paper.addEventListener("click", playRound(e, paper));
+paper.addEventListener("click", () => playRound(paper));
 
-scissors.addEventListener("click", playRound(e, scissors));
+scissors.addEventListener("click", () => playRound(scissors));
 
